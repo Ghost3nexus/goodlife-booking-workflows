@@ -1,0 +1,64 @@
+{
+  "name": "booking-webhook",
+  "description": "Handle LINE webhook events for booking system",
+  "trigger": {
+    "type": "webhook",
+    "path": "/webhook/line",
+    "method": "POST"
+  },
+  "steps": [
+    {
+      "id": "validate-signature",
+      "type": "typescript",
+      "code": "src/workflows/steps/validate-line-signature.ts"
+    },
+    {
+      "id": "parse-event",
+      "type": "typescript",
+      "code": "src/workflows/steps/parse-line-event.ts"
+    },
+    {
+      "id": "route-event",
+      "type": "switch",
+      "condition": "{{ steps['parse-event'].output.type }}",
+      "cases": {
+        "message": "handle-message",
+        "postback": "handle-postback",
+        "follow": "handle-follow"
+      },
+      "default": "log-unknown-event"
+    },
+    {
+      "id": "handle-message",
+      "type": "typescript",
+      "code": "src/workflows/steps/handle-message.ts"
+    },
+    {
+      "id": "handle-postback",
+      "type": "typescript",
+      "code": "src/workflows/steps/handle-postback.ts"
+    },
+    {
+      "id": "handle-follow",
+      "type": "typescript",
+      "code": "src/workflows/steps/handle-follow.ts"
+    },
+    {
+      "id": "log-unknown-event",
+      "type": "typescript",
+      "code": "src/workflows/steps/log-unknown-event.ts"
+    }
+  ],
+  "error_handling": {
+    "retry_policy": {
+      "max_attempts": 3,
+      "backoff_multiplier": 2,
+      "initial_delay": "1s"
+    },
+    "on_failure": {
+      "type": "typescript",
+      "code": "src/workflows/steps/send-slack-alert.ts"
+    }
+  },
+  "timeout": "30s"
+}

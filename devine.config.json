@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "workspace": {
+    "name": "goodlife-booking-workflows",
+    "description": "GOOD LIFE booking system with LINE integration"
+  },
+  "runtime": {
+    "region": "asia-northeast1",
+    "timeout": "60s",
+    "memory": "512MB"
+  },
+  "workflows": [
+    {
+      "name": "booking-webhook",
+      "file": "workflows/booking-webhook.json",
+      "enabled": true
+    },
+    {
+      "name": "payment-webhook", 
+      "file": "workflows/payment-webhook.json",
+      "enabled": true
+    },
+    {
+      "name": "consistency-check",
+      "file": "workflows/consistency-check.json",
+      "enabled": true
+    }
+  ],
+  "secrets": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY", 
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "LINE_CHANNEL_ACCESS_TOKEN",
+    "LINE_CHANNEL_SECRET",
+    "GOOGLE_CALENDAR_ID",
+    "GOOGLE_SERVICE_ACCOUNT_KEY",
+    "SQUARE_ACCESS_TOKEN",
+    "SQUARE_APPLICATION_ID",
+    "SQUARE_LOCATION_ID",
+    "SLACK_WEBHOOK_URL"
+  ],
+  "monitoring": {
+    "enabled": true,
+    "alerts": {
+      "error_rate_threshold": 0.05,
+      "latency_threshold": "1s",
+      "slack_webhook": "${SLACK_WEBHOOK_URL}"
+    }
+  },
+  "deployment": {
+    "strategy": "rolling",
+    "health_check": {
+      "path": "/health",
+      "timeout": "10s"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "payment-webhook",
+  "description": "Handle Square payment webhook events",
+  "trigger": {
+    "type": "webhook",
+    "path": "/webhook/square",
+    "method": "POST"
+  },
+  "steps": [
+    {
+      "id": "validate-signature",
+      "type": "typescript",
+      "code": "src/workflows/steps/validate-square-signature.ts"
+    },
+    {
+      "id": "parse-payment-event",
+      "type": "typescript",
+      "code": "src/workflows/steps/parse-payment-event.ts"
+    },
+    {
+      "id": "update-payment-status",
+      "type": "typescript",
+      "code": "src/workflows/steps/update-payment-status.ts"
+    },
+    {
+      "id": "update-reservation-status",
+      "type": "typescript",
+      "code": "src/workflows/steps/update-reservation-status.ts"
+    },
+    {
+      "id": "send-confirmation",
+      "type": "typescript",
+      "code": "src/workflows/steps/send-payment-confirmation.ts"
+    },
+    {
+      "id": "notify-slack",
+      "type": "typescript",
+      "code": "src/workflows/steps/notify-payment-slack.ts"
+    }
+  ],
+  "error_handling": {
+    "retry_policy": {
+      "max_attempts": 3,
+      "backoff_multiplier": 2,
+      "initial_delay": "2s"
+    },
+    "on_failure": {
+      "type": "typescript",
+      "code": "src/workflows/steps/send-slack-alert.ts"
+    }
+  },
+  "timeout": "45s"
+}

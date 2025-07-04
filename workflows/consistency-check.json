@@ -1,0 +1,59 @@
+{
+  "name": "consistency-check",
+  "description": "Check consistency between Google Calendar and database every 5 minutes",
+  "trigger": {
+    "type": "schedule",
+    "cron": "*/5 * * * *"
+  },
+  "steps": [
+    {
+      "id": "fetch-calendar-events",
+      "type": "typescript",
+      "code": "src/workflows/steps/fetch-calendar-events.ts"
+    },
+    {
+      "id": "fetch-db-reservations",
+      "type": "typescript",
+      "code": "src/workflows/steps/fetch-db-reservations.ts"
+    },
+    {
+      "id": "compare-data",
+      "type": "typescript",
+      "code": "src/workflows/steps/compare-calendar-db.ts"
+    },
+    {
+      "id": "check-inconsistencies",
+      "type": "condition",
+      "condition": "{{ steps['compare-data'].output.hasInconsistencies }}",
+      "if_true": "handle-inconsistencies",
+      "if_false": "log-success"
+    },
+    {
+      "id": "handle-inconsistencies",
+      "type": "typescript",
+      "code": "src/workflows/steps/handle-inconsistencies.ts"
+    },
+    {
+      "id": "send-alert",
+      "type": "typescript",
+      "code": "src/workflows/steps/send-integrity-alert.ts"
+    },
+    {
+      "id": "log-success",
+      "type": "typescript",
+      "code": "src/workflows/steps/log-consistency-success.ts"
+    }
+  ],
+  "error_handling": {
+    "retry_policy": {
+      "max_attempts": 2,
+      "backoff_multiplier": 1.5,
+      "initial_delay": "30s"
+    },
+    "on_failure": {
+      "type": "typescript",
+      "code": "src/workflows/steps/send-slack-alert.ts"
+    }
+  },
+  "timeout": "120s"
+}

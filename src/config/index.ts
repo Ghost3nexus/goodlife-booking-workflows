@@ -1,0 +1,30 @@
+import { config } from 'dotenv';
+
+config();
+
+export const CONFIG = {
+  SUPABASE_URL: process.env.SUPABASE_URL!,
+  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
+  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+
+  LINE_CHANNEL_ACCESS_TOKEN: process.env.LINE_CHANNEL_ACCESS_TOKEN!,
+  LINE_CHANNEL_SECRET: process.env.LINE_CHANNEL_SECRET!,
+
+  GOOGLE_CALENDAR_ID: process.env.GOOGLE_CALENDAR_ID!,
+  GOOGLE_SERVICE_ACCOUNT_KEY: process.env.GOOGLE_SERVICE_ACCOUNT_KEY!,
+
+  SQUARE_ACCESS_TOKEN: process.env.SQUARE_ACCESS_TOKEN!,
+  SQUARE_APPLICATION_ID: process.env.SQUARE_APPLICATION_ID!,
+  SQUARE_ENVIRONMENT: process.env.SQUARE_ENVIRONMENT || 'sandbox',
+
+  SLACK_WEBHOOK_URL: process.env.SLACK_WEBHOOK_URL!,
+  SQUARE_WEBHOOK_SECRET: process.env.SQUARE_WEBHOOK_SECRET!,
+
+  BASE_URL: process.env.BASE_URL || 'https://localhost:3000',
+  NODE_ENV: process.env.NODE_ENV || 'development',
+  
+  AI_RESPONSE_TIMEOUT: 1000, // 1 second
+  EDGE_TX_TIMEOUT: 500, // 500ms
+  SYNC_INTERVAL: 5 * 60 * 1000, // 5 minutes
+  WEBHOOK_RETRY_MAX: 3,
+};

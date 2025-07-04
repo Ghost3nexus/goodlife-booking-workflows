@@ -1,0 +1,50 @@
+{
+  "name": "goodlife-booking-workflows",
+  "version": "1.0.0",
+  "description": "Devine.io workflow implementation for GOOD LIFE booking system",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:e2e": "echo 'E2E tests will be implemented after deployment'",
+    "test:load": "echo 'Load testing with k6 (install k6 binary separately)'",
+    "lint": "eslint src/**/*.ts",
+    "deploy": "echo 'Devine.io deployment will be configured'",
+    "deploy:staging": "echo 'Staging deployment will be configured'"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.1.25",
+    "@langchain/openai": "^0.0.14",
+    "@line/bot-sdk": "^8.0.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "googleapis": "^126.0.1",
+    "langchain": "^0.1.25",
+    "node-fetch": "^3.3.2",
+    "square": "^30.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.10.0",
+    "@types/node-fetch": "^2.6.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "playwright": "^1.40.0",
+    "ts-jest": "^29.4.0",
+    "tsx": "^4.6.0",
+    "typescript": "^5.3.0"
+  },
+  "keywords": [
+    "devine.io",
+    "booking",
+    "line",
+    "workflow",
+    "automation"
+  ],
+  "author": "Ghost3nexus",
+  "license": "MIT"
+}
