@@ -2,29 +2,21 @@ interface ChatOpenAI {
   invoke(messages: any[]): Promise<{ content: string }>;
 }
 
-interface HumanMessage {
-  content: string;
-}
 
-interface ConversationState {
-  messages: any[];
-  intent: string;
-  context: Record<string, any>;
-}
 
 export class ConversationHandler {
   private model: ChatOpenAI;
 
   constructor() {
     this.model = {
-      async invoke(messages: any[]) {
+      async invoke(_messages: any[]) {
         return { content: 'Mock AI response for development' };
       }
     };
   }
 
 
-  async processMessage(userMessage: string, lineUid: string): Promise<string> {
+  async processMessage(userMessage: string, _lineUid: string): Promise<string> {
     const startTime = Date.now();
 
     try {
@@ -78,11 +70,11 @@ export class ConversationHandler {
     return ['booking', 'cancellation', 'inquiry'].includes(intent) ? intent : 'unknown';
   }
 
-  private async handleBookingIntent(userMessage: string): Promise<string> {
+  private async handleBookingIntent(_userMessage: string): Promise<string> {
     return '体験予約をご希望ですね！利用可能な時間帯をお調べします。少々お待ちください。';
   }
 
-  private async handleCancellationIntent(userMessage: string): Promise<string> {
+  private async handleCancellationIntent(_userMessage: string): Promise<string> {
     return '予約のキャンセルをご希望ですね。ご予約の詳細を確認いたします。';
   }
 
@@ -106,7 +98,7 @@ export class ConversationHandler {
     return response.content as string;
   }
 
-  private async handleUnknownIntent(userMessage: string): Promise<string> {
+  private async handleUnknownIntent(_userMessage: string): Promise<string> {
     return 'すみません、よく理解できませんでした。\n\n以下のことができます：\n・体験予約\n・予約の変更・キャンセル\n・お問い合わせ\n\nご希望の内容を教えてください。';
   }
 }

@@ -21,7 +21,7 @@ export class PaymentFlow {
     try {
       const paymentUrl = await this.square.createCheckoutLink(reservationId, amount);
       
-      const payment = await this.supabase.createPayment({
+      await this.supabase.createPayment({
         reservation_id: reservationId,
         transaction_id: `res_${reservationId}_${Date.now()}`,
         status: PaymentStatus.PENDING,
@@ -52,7 +52,7 @@ export class PaymentFlow {
     const context: WorkflowContext = {};
 
     try {
-      const { payment_id, status, transaction_id } = webhookData;
+      const { status, transaction_id } = webhookData;
 
       const payment = await this.supabase.updatePaymentStatus(transaction_id, status);
       context.payment = payment;
