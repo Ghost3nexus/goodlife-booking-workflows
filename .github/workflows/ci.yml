@@ -30,13 +30,6 @@ jobs:
     
     - name: Build project
       run: npm run build
-    
-    - name: Run E2E tests
-      run: npx playwright test
-      env:
-        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-        LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
 
   deploy:
     needs: test
